@@ -34,9 +34,11 @@ Route::middleware(['auth'])->group(function () {
         ->middleware('permission:eliminar archivos')
         ->name('files.destroy');
 
-        Route::get('/archivos/nombres', function () {
-            return \App\Models\Archivo::pluck('nombre');
-        })->middleware('auth');
-        
+    Route::get('/archivos/nombres', function () {
+        return \App\Models\Archivo::pluck('nombre');
+    })->middleware('auth');
+
+    Route::patch('/archivos/{archivo}/renombrar', [ArchivoController::class, 'renombrar'])->name('files.rename');
+    Route::post('/archivos/unir', [ArchivoController::class, 'unir'])->name('files.merge');
 });
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

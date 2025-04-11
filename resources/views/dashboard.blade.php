@@ -12,7 +12,7 @@
 
             <p class="text-lg text-white/90 max-w-3xl animate-fade-in-up">
                 Esta plataforma facilita la carga, organización y control de expedientes ciudadanos. Incluye estadísticas en tiempo real, control de acceso personalizado y una gestión documental eficiente y segura.
-            </p>
+            </p> 
         </div>
 
         {{-- Imagen decorativa inferior (responsiva y más pequeña) --}}

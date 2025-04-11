@@ -28,6 +28,13 @@ class Archivo extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function carpeta()
+    {
+        return $this->belongsTo(Carpeta::class);
+    }
+
+
 }
 
 // Compare this snippet from app/Models/User.php:
