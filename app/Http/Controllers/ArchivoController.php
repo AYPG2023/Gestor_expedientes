@@ -117,7 +117,7 @@ class ArchivoController extends Controller
     {
         $request->validate([
             'archivo_principal_id' => 'required|exists:archivos,id',
-            'nuevo_documento' => 'required|mimes:pdf|max:20480', // máx 20MB
+            'nuevo_documento' => 'required|mimes:pdf|max:20480',
             'nuevo_nombre' => 'required|string|max:255',
         ]);
 
@@ -176,13 +176,33 @@ class ArchivoController extends Controller
                 'subido_en' => now(),
             ]);
 
-            // Limpieza
+            // 🧼 Limpieza del archivo temporal
             Storage::delete('public/' . $rutaTemp);
-            return redirect()->route('files.index')->with('success', '✅ Archivos unidos correctamente.');
+
+            // 🗑️ Si el usuario eligió eliminar el original
+            $archivoEliminado = false;
+            if ($request->has('eliminar_original') && $request->eliminar_original === 'on') {
+                try {
+                    Storage::delete('public/' . $archivoBase->ruta);
+                    $archivoBase->delete();
+                    $archivoEliminado = true;
+                } catch (\Exception $e) {
+                    // puedes guardar el error si lo deseas
+                }
+            }
+
+            // ✅ Redirección con mensaje personalizado
+            $mensaje = '✅ Archivos unidos correctamente.';
+            $mensaje .= $archivoEliminado
+                ? ' El archivo original fue eliminado. 🧹'
+                : ' Recuerda que puedes eliminar el archivo original si ya no lo necesitas. 🧼';
+
+            return redirect()->route('files.index')->with('success', $mensaje);
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => 'Error al generar el PDF combinado: ' . $e->getMessage()]);
         }
     }
+
 
 
     public function renombrar(Request $request, Archivo $archivo)

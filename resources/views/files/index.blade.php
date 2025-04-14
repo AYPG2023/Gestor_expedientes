@@ -3,7 +3,7 @@
         {{-- Título animado --}}
         <h2
             class="text-4xl font-extrabold bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-500 text-transparent bg-clip-text drop-shadow-lg animate-pulse">
-            📁 Gestión Inteligente de Archivos
+            📁 Gestión de Expedientes.
         </h2>
 
         {{-- Formulario de subida --}}
@@ -81,9 +81,11 @@
                                         d="M5.121 17.804A13.937 13.937 0 0112 15c2.21 0 4.29.534 6.121 1.474M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                 </svg>
                             </td>
-                            <td class="px-4 py-4 hidden md:table-cell">{{ number_format($archivo->tamano / 1024 / 1024, 2) }} MB</td>
+                            <td class="px-4 py-4 hidden md:table-cell">
+                                {{ number_format($archivo->tamano / 1024 / 1024, 2) }} MB</td>
                             <td class="px-4 py-4 hidden md:table-cell">{{ $archivo->usuario->name }}</td>
-                            <td class="px-4 py-4 hidden md:table-cell">{{ $archivo->subido_en->format('d/m/Y, g:i:s a') }}</td>
+                            <td class="px-4 py-4 hidden md:table-cell">
+                                {{ $archivo->subido_en->format('d/m/Y, g:i:s a') }}</td>
                             <td class="px-4 py-4 text-center space-y-1 sm:space-y-0 sm:space-x-2">
                                 <a href="{{ asset('storage/' . $archivo->ruta) }}" target="_blank"
                                     class="inline-flex items-center gap-1 text-blue-500 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
@@ -259,6 +261,7 @@
         }
 
 
+
         function cerrarModal(id) {
             const modal = document.getElementById(id);
             modal.classList.add('hidden');
@@ -366,6 +369,15 @@
                         required>
                 </div>
 
+                <!-- ✅ Nuevo: checkbox para eliminar archivo original -->
+                <div class="flex items-center gap-2 mt-2">
+                    <input type="checkbox" name="eliminar_original" id="eliminar_original"
+                        class="rounded text-purple-600 focus:ring-purple-500 border-gray-300 dark:bg-neutral-700 dark:border-neutral-600">
+                    <label for="eliminar_original" class="text-sm text-gray-700 dark:text-gray-300">
+                        Eliminar archivo original después de unir 🧹
+                    </label>
+                </div>
+
                 <div class="flex justify-end gap-2 mt-4">
                     <button type="button" onclick="cerrarModal('modalUnir')"
                         class="px-4 py-2 bg-gray-300 dark:bg-neutral-600 rounded-lg text-sm font-medium">
@@ -377,7 +389,7 @@
                     </button>
                 </div>
             </form>
-
         </div>
     </div>
+
 </x-layouts.app>
